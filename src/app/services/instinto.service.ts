@@ -1,18 +1,18 @@
 import { Classificacao } from './../models/classificacao';
 import { Injectable } from '@angular/core';
-import { Resposta } from '../models/resposta';
 import { Perfil } from '../models/perfil';
+import { Pergunta } from '../models/pergunta';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstintoService {
-  definirPerfil(respostas: Resposta[]): Perfil {
+  definirPerfil(perguntas: Pergunta[]): Perfil {
     const ranking = this.getRanking();
 
-    respostas.forEach((resposta: Resposta) => {
-      const classificacao = ranking.find(item => item.perfil === resposta.perfil);
-      classificacao.pontuacao++;
+    perguntas.forEach((pergunta: Pergunta) => {
+      const classificacao = ranking.find(item => item.perfil === pergunta.perfil);
+      classificacao.pontuacao += pergunta.resposta.pontuacao;
     });
 
     const perfilMaisPontuado = ranking.reduce(this.obterPerfilMaisPontuado());

@@ -1,0 +1,21 @@
+:host ::ng-deep {
+  .mat-card {
+    padding: 24px;
+    margin: 16px;
+  }
+
+ .main-subtitle {
+    display: flex;
+    padding: 0 0 16px !important;
+    line-height: 32px;
+    flex-direction: column;
+  }
+  .mat-slider {
+    width: calc(100% - 30px);
+  }
+  .mat-raised-button {
+    margin: 16px;
+    margin-top: 0px;
+    width: calc(100% - 32px);
+  }
+}

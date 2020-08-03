@@ -1,9 +1,7 @@
-import { Perfil } from './perfil';
-
 export class Resposta {
-  perfil: Perfil;
+  pontuacao: number;
 
-  constructor(perfil: Perfil) {
-    this.perfil = perfil;
+  constructor(pontuacao?: number) {
+    this.pontuacao = pontuacao || 0;
   }
 }
