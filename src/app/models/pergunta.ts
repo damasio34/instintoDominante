@@ -9,5 +9,6 @@ export class Pergunta {
   constructor(titulo: string, perfil: Perfil) {
     this.titulo = titulo;
     this.perfil = perfil;
+    this.resposta = new Resposta(0);
   }
 }

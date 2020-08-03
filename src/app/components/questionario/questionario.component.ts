@@ -1,3 +1,4 @@
+import { InstintoService } from './../../services/instinto.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Pergunta } from '../../models/pergunta';
@@ -13,7 +14,7 @@ export class QuestionarioComponent implements OnInit {
   questionario: FormGroup;
   perguntas: Array<Pergunta>;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private instintoService: InstintoService) {
     this.questionario = this.formBuilder.group({
       perguntas: this.formBuilder.array([]),
     });
@@ -55,8 +56,13 @@ export class QuestionarioComponent implements OnInit {
 
     const perguntas = this.questionario.controls.perguntas as FormArray;
     this.perguntas.forEach(pergunta => {
-      perguntas.push(this.formBuilder.control(pergunta, Validators.required));
+      const control = this.formBuilder.control(pergunta, Validators.required);
+      perguntas.push(control);
     });
+  }
+
+  onSubmit() {
+    this.instintoService.definirPerfil(this.questionario.value.perguntas);
   }
 
 }

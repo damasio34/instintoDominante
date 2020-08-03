@@ -3,7 +3,6 @@
     padding: 24px;
     margin: 16px;
   }
-
  .main-subtitle {
     display: flex;
     padding: 0 0 16px !important;
@@ -18,4 +17,11 @@
     margin-top: 0px;
     width: calc(100% - 32px);
   }
+}
+.pergunta {
+  padding: 16px 0;
+}
+.label-slider {
+  font-size: 14px;
+  line-height: 24px;
 }

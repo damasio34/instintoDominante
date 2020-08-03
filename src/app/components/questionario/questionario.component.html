@@ -1,39 +1,44 @@
 <mat-card>
   <mat-card-subtitle>INFORMAÇÕES GERAIS</mat-card-subtitle>
   <mat-card-content>
-    Instintos são estratégias de sobrevivência que todos os animais adotam nos mais diversos âmbitos da vida. Por exemplo, a partir do momento que existe uma ameaça física, um animal pode atacar ou fugir instintivamente. Os homens, como todos os animais, também possuem instintos. Porém nós não somos tão competentes para lidar eles, e acabamos distorcendo a nossa realiade e nos fazendo reagir instintivamente (sem pensar ou sentir) por causa de percepções que temos sobre o ambiente em que vivemos.  Diferente dos demais animais, nós podemos atacar ou fugir de uma ameaça física que só existe na nossa percepção, ou mesmo podemos demorar muito para reagir à uma ameaça real, pois não a percebemos como tal. Em outras palavras, os instintos distorcem a forma de perceber o ambiente dos homens e nós podemos passar a vida toda presos a coisas que não existem. Por isso, é tão importante compreender quais instintos mais operam em nosso comportamento. No Eneagrama, metodologia de autoconhecimento que utilizamos, nós estudamos a influência de 3 instintos no nosso comportamento: Autopreservação, Social e Sexual. No teste abaixo você poderá ter algumas pistas de qual instinto mais domina sua realidade e que tipos de comportamentos típicos esse instinto traz com ele.
+    Instintos são estratégias de sobrevivência que todos os animais adotam nos mais diversos âmbitos da vida. Por
+    exemplo, a partir do momento que existe uma ameaça física, um animal pode atacar ou fugir instintivamente. Os
+    homens, como todos os animais, também possuem instintos. Porém nós não somos tão competentes para lidar eles, e
+    acabamos distorcendo a nossa realiade e nos fazendo reagir instintivamente (sem pensar ou sentir) por causa de
+    percepções que temos sobre o ambiente em que vivemos. Diferente dos demais animais, nós podemos atacar ou fugir de
+    uma ameaça física que só existe na nossa percepção, ou mesmo podemos demorar muito para reagir à uma ameaça real,
+    pois não a percebemos como tal. Em outras palavras, os instintos distorcem a forma de perceber o ambiente dos homens
+    e nós podemos passar a vida toda presos a coisas que não existem. Por isso, é tão importante compreender quais
+    instintos mais operam em nosso comportamento. No Eneagrama, metodologia de autoconhecimento que utilizamos, nós
+    estudamos a influência de 3 instintos no nosso comportamento: Autopreservação, Social e Sexual. No teste abaixo você
+    poderá ter algumas pistas de qual instinto mais domina sua realidade e que tipos de comportamentos típicos esse
+    instinto traz com ele.
   </mat-card-content>
 </mat-card>
 <mat-card>
   <mat-card-subtitle>INSTRUÇÕES</mat-card-subtitle>
   <mat-card-content>
-    Seja sincero e atribua uma nota correspondente ao que é realmente verdade, e não ao que você gostaria que fosse. Considere o valor de cada afirmação para as áreas da sua vida como um todo, e não apenas para o campo profissional. É importante avaliar desde os 18 anos, não levando somente em consideração o momento atual.
-    Atribua uma nota de 0 a 10 a cada item (sendo 0 para quando o item não fizer nenhum sentido para você e 10 quando fizer totalmente sentido).
+    Seja sincero e atribua uma nota correspondente ao que é realmente verdade, e não ao que você gostaria que fosse.
+    Considere o valor de cada afirmação para as áreas da sua vida como um todo, e não apenas para o campo profissional.
+    É importante avaliar desde os 18 anos, não levando somente em consideração o momento atual.
+    Atribua uma nota de 0 a 10 a cada item (sendo 0 para quando o item não fizer nenhum sentido para você e 10 quando
+    fizer totalmente sentido).
   </mat-card-content>
 </mat-card>
 <mat-card>
   <mat-card-subtitle>QUESTIONÁRIO</mat-card-subtitle>
   <mat-card-content>
     <form class="questionario" [formGroup]="questionario">
-      <div formArrayName="perguntas" *ngFor="let pergunta of questionario.controls.perguntas?.value; let i = index">
-        <p>
-          <span>{{pergunta.titulo}}</span><br />
-          <span class="text-small">0</span>
-          <mat-slider
-            thumbLabel
-            min="0"
-            max="10"
-            step="1"
-            tickInterval="1"
-            color="primary"
-            value="pergunta.resposta.pontuacao"
-            [formGroupName]="i"
-          ></mat-slider>
-          <span class="text-small">10</span>
-        </p>
+      <div class="pergunta" formArrayName="perguntas"
+        *ngFor="let pergunta of questionario.controls.perguntas?.value; let i = index">
+        <span class="label-slider">{{pergunta.titulo}}</span><br />
+        <span class="text-small">0</span>
+        <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" color="primary"
+          [(value)]="pergunta.resposta.pontuacao" [formGroupName]="i"></mat-slider>
+        <span class="text-small">10</span>
         <mat-divider></mat-divider>
       </div>
     </form>
   </mat-card-content>
 </mat-card>
-<button mat-raised-button color="primary">Enviar</button>
+<button mat-raised-button color="primary" (click)="onSubmit()">Enviar</button>

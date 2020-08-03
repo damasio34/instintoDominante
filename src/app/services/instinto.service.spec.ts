@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { InstintoService } from './instinto.service';
-import { Resposta } from '../models/resposta';
 import { Perfil } from '../models/perfil';
 import { Pergunta } from '../models/pergunta';
 
