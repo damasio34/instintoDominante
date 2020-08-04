@@ -17,6 +17,10 @@ import { AppComponent } from './app.component';
 import { QuestionarioComponent } from './components/questionario/questionario.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+export function echartsGetter() {
+  return () => import('echarts');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
 
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
+      echarts: echartsGetter
     }),
 
     MatButtonModule,
