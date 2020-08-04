@@ -13,6 +13,8 @@ export class QuestionarioComponent implements OnInit {
 
   questionario: FormGroup;
   perguntas: Array<Pergunta>;
+  resultado: string;
+  descricao: string;
 
   constructor(private formBuilder: FormBuilder, private instintoService: InstintoService) {
     this.questionario = this.formBuilder.group({
@@ -62,7 +64,9 @@ export class QuestionarioComponent implements OnInit {
   }
 
   onSubmit() {
-    this.instintoService.definirPerfil(this.questionario.value.perguntas);
+    const resultado = this.instintoService.definirPerfil(this.questionario.value.perguntas);
+    this.resultado = Perfil[resultado];
+    this.descricao = this.instintoService.oberDescricaoDoPerfil(resultado);
   }
 
 }

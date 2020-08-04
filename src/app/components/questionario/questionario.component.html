@@ -42,3 +42,9 @@
   </mat-card-content>
 </mat-card>
 <button mat-raised-button color="primary" (click)="onSubmit()">Enviar</button>
+<mat-card *ngIf="resultado">
+  <mat-card-subtitle>O TESTE INDICA QUE SEU INSITO É <span class="resultado">{{resultado}}</span></mat-card-subtitle>
+  <mat-card-content>
+    {{descricao}}
+  </mat-card-content>
+</mat-card>
