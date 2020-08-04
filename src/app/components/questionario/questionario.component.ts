@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Pergunta } from '../../models/pergunta';
 import { Perfil } from 'src/app/models/perfil';
+import { Classificacao } from 'src/app/models/classificacao';
 
 @Component({
   selector: 'app-questionario',
@@ -15,6 +16,7 @@ export class QuestionarioComponent implements OnInit {
   perguntas: Array<Pergunta>;
   resultado: string;
   descricao: string;
+  options: any;
 
   constructor(private formBuilder: FormBuilder, private instintoService: InstintoService) {
     this.questionario = this.formBuilder.group({
@@ -64,9 +66,47 @@ export class QuestionarioComponent implements OnInit {
   }
 
   onSubmit() {
-    const resultado = this.instintoService.definirPerfil(this.questionario.value.perguntas);
+    this.questionario.value.perguntas.forEach((element: Pergunta) => {
+      element.resposta.pontuacao = Math.floor(Math.random() * 11);
+    });
+    const ranking = this.instintoService.processarRanking(this.questionario.value.perguntas);
+    const resultado = this.instintoService.definirPerfil(ranking);
     this.resultado = Perfil[resultado];
     this.descricao = this.instintoService.oberDescricaoDoPerfil(resultado);
+    this.options = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)',
+        show: true
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: 'bottom',
+        // left: 'left',
+        data: ['Autoconhecimento', 'Social', 'Sexual']
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: '80%',
+          bottom: 0,
+          top: 'top',
+          // avoidLabelOverlap: false,
+          label: {
+            normal: {
+              formatter: '{c}%',
+              position: 'inside',
+              fontSize: 16
+            }
+          },
+          data: [
+            { value: ranking[0].pontuacao, name: 'Autoconhecimento' },
+            { value: ranking[1].pontuacao, name: 'Social' },
+            { value: ranking[2].pontuacao, name: 'Sexual' }
+          ]
+        }
+      ]
+    };
   }
 
 }

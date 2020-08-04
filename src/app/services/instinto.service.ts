@@ -17,14 +17,14 @@ export class InstintoService {
           desapegar de bens materiais, é visto como uma pessoa mais egoista,
           sensação de não ter vivido a vida completamente (não ter feito coisas que gostaria de fazer),
           seu silêncio não é bem compreendido.`;
-        case Perfil.Sexual:
+      case Perfil.Sexual:
         return `Comportamentos típicos de quem é Sexual Dominante: intensidade, irracionalidade, falta de lógica,
           impulsividade, agressividade, competitividade, alta energia, impactante, intrometido, sedutor,  possessivo,
           persuasivo, sensual / erotismo, ciúmes, mais atenção para uns. Vínculo para amizades mais profundas e
           relacionamentos afetivos. Foco no prazer. Dificuldades que ouvimos de pessoas que possuem Sexual Dominante:
           são manipulados para comprar brigas de outras pessoas, se magoam pelos outros por coisas que não são realmente problema,
           são vistos como pessoas agressivas e briguentas, executam tanto que podem chegar a adoecer.`;
-        case Perfil.Social:
+      case Perfil.Social:
         return `Comportamentos típicos de quem é Social Dominante: aprovação e reconhecimento, preocupação com imagem,
           união do grupo, posições de destaque, proximidade com pessoas importantes, valorização do status, política,
           manipulação, cultivo de ideias grandes, atenção ao grupo e não ao indivíduo, maior tolerância aos conflitos.
@@ -34,18 +34,20 @@ export class InstintoService {
           se sentem insconscientemente superiores.`;
     }
   }
-  definirPerfil(perguntas: Pergunta[]): Perfil {
+  definirPerfil(ranking: Classificacao[]): Perfil {
+    const perfilMaisPontuado = ranking.reduce(this.obterPerfilMaisPontuado());
+    return perfilMaisPontuado.perfil;
+  }
+  processarRanking(perguntas: Pergunta[]): Classificacao[] {
     const ranking = this.getRanking();
 
     perguntas.forEach((pergunta: Pergunta) => {
       const classificacao = ranking.find(item => item.perfil === pergunta.perfil);
       classificacao.pontuacao += pergunta.resposta.pontuacao;
     });
-
-    const perfilMaisPontuado = ranking.reduce(this.obterPerfilMaisPontuado());
-
-    return perfilMaisPontuado.perfil;
+    return ranking;
   }
+
   private obterPerfilMaisPontuado(): (
     previousValue: Classificacao,
     currentValue: Classificacao,

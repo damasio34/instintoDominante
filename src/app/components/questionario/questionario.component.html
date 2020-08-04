@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="!resultado">
   <mat-card-subtitle>INFORMAÇÕES GERAIS</mat-card-subtitle>
   <mat-card-content>
     Instintos são estratégias de sobrevivência que todos os animais adotam nos mais diversos âmbitos da vida. Por
@@ -15,7 +15,7 @@
     instinto traz com ele.
   </mat-card-content>
 </mat-card>
-<mat-card>
+<mat-card *ngIf="!resultado">
   <mat-card-subtitle>INSTRUÇÕES</mat-card-subtitle>
   <mat-card-content>
     Seja sincero e atribua uma nota correspondente ao que é realmente verdade, e não ao que você gostaria que fosse.
@@ -25,7 +25,7 @@
     fizer totalmente sentido).
   </mat-card-content>
 </mat-card>
-<mat-card>
+<mat-card *ngIf="!resultado">
   <mat-card-subtitle>QUESTIONÁRIO</mat-card-subtitle>
   <mat-card-content>
     <form class="questionario" [formGroup]="questionario">
@@ -41,10 +41,16 @@
     </form>
   </mat-card-content>
 </mat-card>
-<button mat-raised-button color="primary" (click)="onSubmit()">Enviar</button>
+<button *ngIf="!resultado" mat-raised-button color="primary" (click)="onSubmit()">Enviar</button>
 <mat-card *ngIf="resultado">
   <mat-card-subtitle>O TESTE INDICA QUE SEU INSITO É <span class="resultado">{{resultado}}</span></mat-card-subtitle>
   <mat-card-content>
     {{descricao}}
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="resultado">
+  <mat-card-subtitle>GRÁFICO</mat-card-subtitle>
+  <mat-card-content>
+    <div echarts [options]="options"></div>
   </mat-card-content>
 </mat-card>
