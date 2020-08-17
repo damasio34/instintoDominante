@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
+import { NgxEchartsModule } from 'ngx-echarts';
+import { MaterialModule } from './../../shared/modules/material.module';
 import { QuestionarioComponent } from './questionario.component';
 
 describe('QuestionarioComponent', () => {
@@ -8,6 +11,7 @@ describe('QuestionarioComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ MaterialModule, ReactiveFormsModule, NgxEchartsModule ],
       declarations: [ QuestionarioComponent ]
     })
     .compileComponents();
@@ -19,7 +23,7 @@ describe('QuestionarioComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('Deve criar o componente', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,9 +1,9 @@
-import { InstintoService } from './../../services/instinto.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+
+import { InstintoService } from './../../services/instinto.service';
 import { Pergunta } from '../../models/pergunta';
 import { Perfil } from 'src/app/models/perfil';
-import { Classificacao } from 'src/app/models/classificacao';
 
 @Component({
   selector: 'app-questionario',

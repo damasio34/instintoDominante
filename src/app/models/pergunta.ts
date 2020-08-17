@@ -11,4 +11,9 @@ export class Pergunta {
     this.perfil = perfil;
     this.resposta = new Resposta(0);
   }
+
+  public aplicarPontuacaoAResposta(pontuacao: number): Pergunta {
+    this.resposta.pontuacao = pontuacao;
+    return this;
+  }
 }

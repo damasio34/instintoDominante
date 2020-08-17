@@ -34,10 +34,12 @@ export class InstintoService {
           se sentem insconscientemente superiores.`;
     }
   }
+
   definirPerfil(ranking: Classificacao[]): Perfil {
     const perfilMaisPontuado = ranking.reduce(this.obterPerfilMaisPontuado());
     return perfilMaisPontuado.perfil;
   }
+
   processarRanking(perguntas: Pergunta[]): Classificacao[] {
     const ranking = this.getRanking();
 
