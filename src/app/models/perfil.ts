@@ -1,5 +1,5 @@
 export enum Perfil {
-  Autopreservacao = 1,
-  Social = 2,
-  Sexual = 3
+  Autopreservacao = 'Autopreservacção',
+  Social = 'Social',
+  Sexual = 'Sexual'
 }

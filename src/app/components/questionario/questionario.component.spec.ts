@@ -26,4 +26,12 @@ describe('QuestionarioComponent', () => {
   it('Deve criar o componente', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('Deve conter um carde de informações gerais', () => {
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('Deve conter um card de instruções', () => {
+  //   expect(component).toBeTruthy();
+  // });
 });

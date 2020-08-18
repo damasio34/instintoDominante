@@ -66,11 +66,12 @@ export class QuestionarioComponent implements OnInit {
   }
 
   onSubmit() {
-    this.questionario.value.perguntas.forEach((element: Pergunta) => {
-      element.resposta.pontuacao = Math.floor(Math.random() * 11);
-    });
-    const ranking = this.instintoService.processarRanking(this.questionario.value.perguntas);
-    const resultado = this.instintoService.definirPerfil(ranking);
+    // this.questionario.value.perguntas.forEach((element: Pergunta) => {
+    //   element.resposta.pontuacao = Math.floor(Math.random() * 11);
+    // });
+    const classificacao = this.instintoService.getClassificacao();
+    const classificacaoFinal = this.instintoService.processarClassificacao(classificacao, this.questionario.value.perguntas);
+    const resultado = this.instintoService.definirPerfil(classificacaoFinal);
     this.resultado = Perfil[resultado];
     this.descricao = this.instintoService.oberDescricaoDoPerfil(resultado);
     this.options = {
@@ -100,9 +101,9 @@ export class QuestionarioComponent implements OnInit {
             }
           },
           data: [
-            { value: ranking[0].pontuacao, name: 'Autoconhecimento' },
-            { value: ranking[1].pontuacao, name: 'Social' },
-            { value: ranking[2].pontuacao, name: 'Sexual' }
+            { value: classificacaoFinal[0].pontuacao, name: 'Autoconhecimento' },
+            { value: classificacaoFinal[1].pontuacao, name: 'Social' },
+            { value: classificacaoFinal[2].pontuacao, name: 'Sexual' }
           ]
         }
       ]

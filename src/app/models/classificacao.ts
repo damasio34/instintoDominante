@@ -4,8 +4,13 @@ export class Classificacao {
   perfil: Perfil;
   pontuacao: number;
 
-  constructor(perfil: any) {
-    this.perfil = (Perfil as any)[perfil];
+  constructor(perfil: Perfil) {
+    this.perfil = perfil;
     this.pontuacao = 0;
+  }
+
+  public SetPontuacao(pontuacao: number): Classificacao {
+    this.pontuacao = pontuacao;
+    return this;
   }
 }
