@@ -18,8 +18,18 @@
     width: calc(100% - 32px);
   }
 }
+.questionario {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
 .pergunta {
   padding: 16px 0;
+  @media (min-width: 768px) {
+    width: calc((100% / 3) - 10px);
+  }
 }
 .label-slider {
   font-size: 14px;
