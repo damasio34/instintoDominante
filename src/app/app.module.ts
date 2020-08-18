@@ -20,9 +20,7 @@ import { QuestionarioComponent } from './components/questionario/questionario.co
     FormsModule,
 
     MaterialModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    }),
+    NgxEchartsModule,
 
     ReactiveFormsModule
   ],
