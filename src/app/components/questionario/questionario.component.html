@@ -31,17 +31,20 @@
     <form class="questionario" [formGroup]="questionario">
       <div class="pergunta" formArrayName="perguntas"
         *ngFor="let pergunta of questionario.controls.perguntas?.value; let i = index">
-        <span class="label-slider">{{pergunta.titulo}}</span><br />
-        <span class="text-small">0</span>
-        <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" color="primary"
-          [(value)]="pergunta.resposta.pontuacao" [formGroupName]="i"></mat-slider>
-        <span class="text-small">10</span>
+        <span class="label-slider">{{pergunta.titulo}}</span>
+        <div class="slider-group" [class.nao-preenchido]="!pergunta.resposta.pontuacao">
+          <span class="text-small min">0</span>
+          <mat-slider class="slider" thumbLabel min="0" max="10" step="1" tickInterval="1" color="primary"
+            [(value)]="pergunta.resposta.pontuacao" [formGroupName]="i"></mat-slider>
+          <!-- [class.mat-slider-disabled]="!pergunta.resposta.pontuacao" -->
+          <span class="text-small max">10</span>
+        </div>
         <mat-divider></mat-divider>
       </div>
     </form>
   </mat-card-content>
 </mat-card>
-<button *ngIf="!resultado" mat-raised-button color="primary" (click)="onSubmit()">Enviar</button>
+<button *ngIf="!resultado" mat-raised-button color="primary" (click)="submit()">Enviar</button>
 <mat-card *ngIf="resultado">
   <mat-card-subtitle>O TESTE INDICA QUE SEU INSITO É <span class="resultado">{{resultado}}</span></mat-card-subtitle>
   <mat-card-content>
@@ -51,6 +54,7 @@
 <mat-card *ngIf="resultado">
   <mat-card-subtitle>GRÁFICO</mat-card-subtitle>
   <mat-card-content>
-    <div echarts [options]="options"></div>
+    <div echarts [options]="options" class="chart"></div>
   </mat-card-content>
 </mat-card>
+<button *ngIf="resultado" mat-raised-button color="primary" (click)="reset()">Refazer</button>

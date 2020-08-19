@@ -1,8 +1,13 @@
+@import '~@angular/material/theming';
+
 .toolbar {
+  display: flex;
+  align-content: center;
   position: fixed;
   z-index: 999;
   top:0;
-  padding-left: 30px;
+  padding-left: 16px;
+  @include mat-elevation(2);
   @media (min-width: 768px) {
     display: flex;
     justify-content: center;
@@ -21,4 +26,10 @@
     max-width: 1024px;
     padding: 1em;
   }
+}
+.outlined {
+  font-family: 'Material Icons Outlined';
+}
+.title {
+  margin-left:10px;
 }

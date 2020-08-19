@@ -65,7 +65,17 @@ export class QuestionarioComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  reset() {
+    this.questionario.reset();
+    const perguntas = this.questionario.controls.perguntas as FormArray;
+    this.perguntas.forEach((pergunta, index) => {
+      const control = this.formBuilder.control(pergunta, Validators.required);
+      perguntas.controls[index] = control;
+    });
+    this.resultado = '';
+  }
+
+  submit() {
     // this.questionario.value.perguntas.forEach((element: Pergunta) => {
     //   element.resposta.pontuacao = Math.floor(Math.random() * 11);
     // });
