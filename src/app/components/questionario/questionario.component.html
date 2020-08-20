@@ -31,12 +31,11 @@
     <form class="questionario" [formGroup]="questionario">
       <div class="pergunta" formArrayName="perguntas"
         *ngFor="let pergunta of questionario.controls.perguntas?.value; let i = index">
-        <span class="label-slider">{{pergunta.titulo}}</span>
-        <div class="slider-group" [class.nao-preenchido]="!pergunta.resposta.pontuacao">
+        <span class="label-slider" [class.nao-preenchido]="isDisabled(i)">{{pergunta.titulo}}</span>
+        <div class="slider-group" [class.nao-preenchido]="isDisabled(i)">
           <span class="text-small min">0</span>
           <mat-slider class="slider" thumbLabel min="0" max="10" step="1" tickInterval="1" color="primary"
             [(value)]="pergunta.resposta.pontuacao" [formGroupName]="i"></mat-slider>
-          <!-- [class.mat-slider-disabled]="!pergunta.resposta.pontuacao" -->
           <span class="text-small max">10</span>
         </div>
         <mat-divider></mat-divider>
@@ -55,6 +54,11 @@
   <mat-card-subtitle>GRÁFICO</mat-card-subtitle>
   <mat-card-content>
     <div echarts [options]="options" class="chart"></div>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="resultado">
+  <mat-card-content>
+    <iframe width="100%" src="https://www.youtube-nocookie.com/embed/x_Rwp5yXhL0?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </mat-card-content>
 </mat-card>
 <button *ngIf="resultado" mat-raised-button color="primary" (click)="reset()">Refazer</button>

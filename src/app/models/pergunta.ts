@@ -9,7 +9,7 @@ export class Pergunta {
   constructor(titulo: string, perfil: Perfil) {
     this.titulo = titulo;
     this.perfil = perfil;
-    this.resposta = new Resposta(0);
+    this.resposta = new Resposta();
   }
 
   public aplicarPontuacaoAResposta(pontuacao: number): Pergunta {

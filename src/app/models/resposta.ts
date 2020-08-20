@@ -2,6 +2,6 @@ export class Resposta {
   pontuacao: number;
 
   constructor(pontuacao?: number) {
-    this.pontuacao = pontuacao || 0;
+    this.pontuacao = pontuacao || undefined;
   }
 }

@@ -2,6 +2,7 @@
   .mat-card {
     padding: 24px;
     margin: 16px;
+    margin-top: 16px;
   }
   .mat-card-subtitle {
     color:#673ab7;
@@ -9,7 +10,7 @@
   }
  .main-subtitle {
     display: flex;
-    padding: 0 0 16px !important;
+    padding: 16px;
     line-height: 32px;
     flex-direction: column;
   }
@@ -20,6 +21,10 @@
     margin: 16px;
     margin-top: 0px;
     width: calc(100% - 32px);
+  }
+  .mat-card-content>:first-child, .mat-card>:first-child {
+    margin-top: 0;
+    margin-bottom: 4px;
   }
 }
 .questionario {
@@ -43,9 +48,10 @@
   }
   .nao-preenchido{
     color: rgba(0,0,0,.54);
+    opacity: 0.6;
   }
   .label-slider {
-    margin-top: 16px;
+    margin-top: 20px;
     margin-bottom: 8px;
     font-size: 14px;
     line-height: 24px;
