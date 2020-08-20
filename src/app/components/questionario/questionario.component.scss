@@ -14,17 +14,13 @@
     line-height: 32px;
     flex-direction: column;
   }
-  .mat-slider {
-    width: calc(100% - 36px);
-  }
   .mat-raised-button {
     margin: 16px;
     margin-top: 0px;
     width: calc(100% - 32px);
   }
-  .mat-card-content>:first-child, .mat-card>:first-child {
-    margin-top: 0;
-    margin-bottom: 4px;
+  .mat-card.mat-card-questionario>:first-child {
+    margin-bottom: 0;
   }
 }
 .questionario {
@@ -57,6 +53,7 @@
     line-height: 24px;
   }
   .slider {
+    flex-grow: 1;
     align-self: center;
   }
   .text-small {
@@ -69,9 +66,11 @@
   }
   .min {
     align-self: flex-start;
+    margin-right: 6px;
   }
   .max {
     align-self: flex-end;
+    margin-left: 6px;
   }
 }
 .resultado {
