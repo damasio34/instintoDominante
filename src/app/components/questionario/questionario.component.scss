@@ -1,3 +1,6 @@
+@import '~@angular/material/theming';
+@import 'color-variables';
+
 :host ::ng-deep {
   .mat-card {
     padding: 24px;
@@ -5,7 +8,7 @@
     margin-top: 16px;
   }
   .mat-card-subtitle {
-    color:#673ab7;
+    color: $primary;
     font-weight: 500;
   }
  .main-subtitle {
@@ -35,8 +38,11 @@
   flex-direction: column;
   padding-top: 16px;
   width: 100%;
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     width: calc((100% / 3) - 10px);
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: calc((100% / 2) - 10px);
   }
   .slider-group {
     display: flex;
@@ -47,17 +53,31 @@
     opacity: 0.6;
   }
   .label-slider {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-top: 20px;
     margin-bottom: 8px;
     font-size: 14px;
     line-height: 24px;
+    .descricao, .pontuacao{
+      display: flex;
+    }
+    .pontuacao {
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      color: white;
+      background-color: $primary;
+      border-radius: .4em;
+    }
   }
   .slider {
     flex-grow: 1;
     align-self: center;
   }
   .text-small {
-    color:#673ab7;
+    color: $primary;
     font-weight: 500;
   }
   .min, .max {
