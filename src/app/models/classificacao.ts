@@ -6,7 +6,7 @@ export class Classificacao {
 
   constructor(perfil: Perfil) {
     this.perfil = perfil;
-    this.pontuacao = 0;
+    this.pontuacao = undefined;
   }
 
   public SetPontuacao(pontuacao: number): Classificacao {

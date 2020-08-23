@@ -16,7 +16,7 @@ export class QuestionarioComponent implements OnInit {
 
   questionario: FormGroup;
   perguntas: Array<Pergunta>;
-  resultado: string;
+  resultado: Perfil;
   descricao: string;
   options: any;
 
@@ -96,7 +96,7 @@ export class QuestionarioComponent implements OnInit {
       const control = this.formBuilder.control(pergunta, Validators.required);
       perguntas.controls[index] = control;
     });
-    this.resultado = '';
+    this.resultado = undefined;
   }
 
   submit() {
@@ -107,7 +107,7 @@ export class QuestionarioComponent implements OnInit {
     this.questionario.value.perguntas.forEach((element: Pergunta) => {
       element.resposta.pontuacao = Math.floor(Math.random() * 11);
     });
-    const classificacao = this.instintoService.getClassificacao();
+    const classificacao = this.instintoService.obterClassificacao();
     const classificacaoFinal = this.instintoService.processarClassificacao(classificacao, this.questionario.value.perguntas);
     const resultado = this.instintoService.definirPerfil(classificacaoFinal);
     this.resultado = Perfil[resultado];

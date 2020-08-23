@@ -8,6 +8,29 @@ import { Pergunta } from '../models/pergunta';
 describe('Valida serviço de definição de perfil', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
+  const autopreservacao = `Comportamentos típicos de quem é Autopreservação Dominante: organizado, pontual, regular, precavido,
+  avesso ao risco, cético, cuidados com a saúde, atenção mais para si que para o outro, assuntos e controles financeiros,
+  introvertido, dificuldade em confiar, ansioso. Tendência de cuidar mais de si, da saúde, do  sono.
+  Dificuldades que ouvimos de pessoas que possuem Autopreservação Dominante: confiar nos outros,
+  desapegar de bens materiais, é visto como uma pessoa mais egoista,
+  sensação de não ter vivido a vida completamente (não ter feito coisas que gostaria de fazer),
+  seu silêncio não é bem compreendido.`;
+
+  const sexual = `Comportamentos típicos de quem é Sexual Dominante: intensidade, irracionalidade, falta de lógica,
+  impulsividade, agressividade, competitividade, alta energia, impactante, intrometido, sedutor,  possessivo,
+  persuasivo, sensual / erotismo, ciúmes, mais atenção para uns. Vínculo para amizades mais profundas e
+  relacionamentos afetivos. Foco no prazer. Dificuldades que ouvimos de pessoas que possuem Sexual Dominante:
+  são manipulados para comprar brigas de outras pessoas, se magoam pelos outros por coisas que não são realmente problema,
+  são vistos como pessoas agressivas e briguentas, executam tanto que podem chegar a adoecer.`;
+
+  const social = `Comportamentos típicos de quem é Social Dominante: aprovação e reconhecimento, preocupação com imagem,
+  união do grupo, posições de destaque, proximidade com pessoas importantes, valorização do status, política,
+  manipulação, cultivo de ideias grandes, atenção ao grupo e não ao indivíduo, maior tolerância aos conflitos.
+  Tem foco no pertencer e no contribuir. Dificuldades que ouvimos de pessoas que possuem Social Dominante:
+  confiam demais nos outros, não sabem falar não, sobrecarga de trabalho,
+  querem tanto agradar que podem se sentir "falsos", dificuldade em pedir ajuda,
+  se sentem insconscientemente superiores.`;
+
   let organizacao: Pergunta;
   let preocupaçãoComImagem: Pergunta;
   let regularidade: Pergunta;
@@ -41,7 +64,7 @@ describe('Valida serviço de definição de perfil', () => {
   let maiorIntolerancia: Pergunta;
   let intrometido: Pergunta;
 
-  function getClassificacaoMock(): Array<Classificacao> {
+  function obterClassificacaoMock(): Array<Classificacao> {
     return new Array<Classificacao>(
       new Classificacao(Perfil.Autopreservacao),
       new Classificacao(Perfil.Social),
@@ -84,16 +107,53 @@ describe('Valida serviço de definição de perfil', () => {
     intrometido = new Pergunta('Maior intolerância', Perfil.Sexual);
   }
 
-  it('Obtem classificação de perfis', () => {
+  it('obterClassificacao > Obtem classificação com pontuação indefinida', () => {
     const service: InstintoService = TestBed.get(InstintoService);
-    const classificacaoMock: Array<Classificacao> = getClassificacaoMock();
-    const classificacao: Array<Classificacao> = service.getClassificacao();
+    const classificacao: Array<Classificacao> = service.obterClassificacao();
 
-    expect(classificacao.length).toEqual(3);
-    expect(classificacao).toEqual(classificacaoMock);
+    expect(classificacao[0].pontuacao).toEqual(undefined);
+    expect(classificacao[1].pontuacao).toEqual(undefined);
+    expect(classificacao[2].pontuacao).toEqual(undefined);
   });
 
-  it('obter classificação do perfil Altopreservação', () => {
+  it('obterClassificacao > Obtem classificação com os perfis predefinidos', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const classificacao: Array<Classificacao> = service.obterClassificacao();
+
+    expect(classificacao.length).toEqual(3);
+    expect(classificacao[0].perfil).toEqual(Perfil.Autopreservacao);
+    expect(classificacao[1].perfil).toEqual(Perfil.Social);
+    expect(classificacao[2].perfil).toEqual(Perfil.Sexual);
+  });
+
+  it('oberDescricaoDoPerfil > Descrição do perfil autopreservação está correta.', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const descricao: string = service.oberDescricaoDoPerfil(Perfil.Autopreservacao);
+
+    expect(descricao).toEqual(autopreservacao);
+  });
+
+  it('oberDescricaoDoPerfil > Descrição do perfil social está correta.', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const descricao: string = service.oberDescricaoDoPerfil(Perfil.Social);
+
+    expect(descricao).toEqual(social);
+  });
+
+  it('oberDescricaoDoPerfil > Descrição do perfil sexual está correta.', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const descricao: string = service.oberDescricaoDoPerfil(Perfil.Sexual);
+
+    expect(descricao).toEqual(sexual);
+  });
+
+  it('oberDescricaoDoPerfil > Perfil inválido.', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+
+    expect(() => service.oberDescricaoDoPerfil(null)).toThrow(new Error('Perfil inválido'));
+  });
+
+  it('processarClassificacao > obter classificação do perfil Autopreservação', () => {
     setupQuestionario();
     const instintoService: InstintoService = TestBed.get(InstintoService);
     const perguntas = new Array<Pergunta>(
@@ -130,7 +190,7 @@ describe('Valida serviço de definição de perfil', () => {
       maiorIntolerancia.aplicarPontuacaoAResposta(3),
       intrometido.aplicarPontuacaoAResposta(4),
     );
-    const classificacaoMock: Array<Classificacao> = getClassificacaoMock();
+    const classificacaoMock: Array<Classificacao> = obterClassificacaoMock();
     const classificacao = instintoService.processarClassificacao(classificacaoMock, perguntas);
     const classificacaoEsperada = new Array<Classificacao>(
       new Classificacao(Perfil.Autopreservacao).SetPontuacao(62),
@@ -141,7 +201,7 @@ describe('Valida serviço de definição de perfil', () => {
     expect(classificacao).toEqual(classificacaoEsperada);
   });
 
-  it('obter classificação do perfil Social', () => {
+  it('processarClassificacao > obter classificação do perfil Social', () => {
     setupQuestionario();
     const instintoService: InstintoService = TestBed.get(InstintoService);
     const perguntas = new Array<Pergunta>(
@@ -179,7 +239,7 @@ describe('Valida serviço de definição de perfil', () => {
       intrometido.aplicarPontuacaoAResposta(4),
     );
 
-    const classificacaoMock: Array<Classificacao> = getClassificacaoMock();
+    const classificacaoMock: Array<Classificacao> = obterClassificacaoMock();
     const classificacao = instintoService.processarClassificacao(classificacaoMock, perguntas);
     const classificacaoEsperada = new Array<Classificacao>(
       new Classificacao(Perfil.Autopreservacao).SetPontuacao(51),
@@ -190,7 +250,7 @@ describe('Valida serviço de definição de perfil', () => {
     expect(classificacao).toEqual(classificacaoEsperada);
   });
 
-  it('obter classificação do perfil Sexual', () => {
+  it('processarClassificacao > obter classificação do perfil Sexual', () => {
     setupQuestionario();
     const instintoService: InstintoService = TestBed.get(InstintoService);
     const perguntas = new Array<Pergunta>(
@@ -228,7 +288,7 @@ describe('Valida serviço de definição de perfil', () => {
       intrometido.aplicarPontuacaoAResposta(7),
     );
 
-    const classificacaoMock: Array<Classificacao> = getClassificacaoMock();
+    const classificacaoMock: Array<Classificacao> = obterClassificacaoMock();
     const classificacao = instintoService.processarClassificacao(classificacaoMock, perguntas);
     const classificacaoEsperada = new Array<Classificacao>(
       new Classificacao(Perfil.Autopreservacao).SetPontuacao(57),
@@ -239,7 +299,7 @@ describe('Valida serviço de definição de perfil', () => {
     expect(classificacao).toEqual(classificacaoEsperada);
   });
 
-  it('obter classificação em caso de empate', () => {
+  it('processarClassificacao > obter classificação em caso de empate', () => {
     setupQuestionario();
     const instintoService: InstintoService = TestBed.get(InstintoService);
     const perguntas = new Array<Pergunta>(
@@ -277,7 +337,7 @@ describe('Valida serviço de definição de perfil', () => {
       intrometido.aplicarPontuacaoAResposta(4),
     );
 
-    const classificacaoMock: Array<Classificacao> = getClassificacaoMock();
+    const classificacaoMock: Array<Classificacao> = obterClassificacaoMock();
     const classificacao = instintoService.processarClassificacao(classificacaoMock, perguntas);
     const classificacaoEsperada = new Array<Classificacao>(
       new Classificacao(Perfil.Autopreservacao).SetPontuacao(47),
@@ -288,15 +348,44 @@ describe('Valida serviço de definição de perfil', () => {
     expect(classificacao).toEqual(classificacaoEsperada);
   });
 
+  it('definirPerfil > Perfil Autopreservação', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const classificacao = new Array<Classificacao>(
+      new Classificacao(Perfil.Autopreservacao).SetPontuacao(62),
+      new Classificacao(Perfil.Social).SetPontuacao(36),
+      new Classificacao(Perfil.Sexual).SetPontuacao(43)
+    );
+    expect(service.definirPerfil(classificacao)).toEqual(Perfil.Autopreservacao);
+  });
 
-  // it('Perfil Altopreservação', () => {
-  //   const service: InstintoService = TestBed.get(InstintoService);
-  //   const perguntas = new Array<Pergunta>(
-  //     organizacao.aplicarPontuacaoAResposta(2),
-  //     regularidade.aplicarPontuacaoAResposta(3),
-  //     preocupaçãoComImagem.aplicarPontuacaoAResposta(3),
-  //     irracionalidade.aplicarPontuacaoAResposta(3)
-  //   );
-  //   expect(service.definirPerfil(perguntas)).toEqual(Perfil.Autopreservacao);
-  // });
+  it('definirPerfil > Perfil Social', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const classificacao = new Array<Classificacao>(
+      new Classificacao(Perfil.Autopreservacao).SetPontuacao(51),
+      new Classificacao(Perfil.Social).SetPontuacao(62),
+      new Classificacao(Perfil.Sexual).SetPontuacao(43)
+    );
+    expect(service.definirPerfil(classificacao)).toEqual(Perfil.Social);
+  });
+
+  it('definirPerfil > Perfil Sexual', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const classificacao = new Array<Classificacao>(
+      new Classificacao(Perfil.Autopreservacao).SetPontuacao(57),
+      new Classificacao(Perfil.Social).SetPontuacao(51),
+      new Classificacao(Perfil.Sexual).SetPontuacao(73)
+    );
+    expect(service.definirPerfil(classificacao)).toEqual(Perfil.Sexual);
+  });
+
+  it('definirPerfil > Perfil não diferente do esperado', () => {
+    const service: InstintoService = TestBed.get(InstintoService);
+    const classificacao = new Array<Classificacao>(
+      new Classificacao(Perfil.Autopreservacao).SetPontuacao(57),
+      new Classificacao(Perfil.Social).SetPontuacao(51),
+      new Classificacao(Perfil.Sexual).SetPontuacao(73)
+    );
+    expect(service.definirPerfil(classificacao)).not.toEqual(Perfil.Autopreservacao);
+    expect(service.definirPerfil(classificacao)).not.toEqual(Perfil.Social);
+  });
 });
