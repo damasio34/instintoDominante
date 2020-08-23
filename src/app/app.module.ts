@@ -25,7 +25,7 @@ import { QuestionarioComponent } from './components/questionario/questionario.co
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [ AppComponent ],
-  exports: [ QuestionarioComponent ]
+  bootstrap: [AppComponent],
+  exports: [QuestionarioComponent]
 })
 export class AppModule { }

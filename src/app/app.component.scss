@@ -20,7 +20,9 @@
 }
 .content {
   display: flex;
+  flex-grow: 1;
   margin-top: 56px;
+  min-width: calc(100% - 75px);
 
   @media (min-width: 768px) {
     max-width: 1024px;
