@@ -47,21 +47,33 @@
   </mat-card-content>
 </mat-card>
 <button *ngIf="!resultado" mat-raised-button color="primary" (click)="submit()">Enviar</button>
+
 <mat-card *ngIf="resultado">
-  <mat-card-subtitle>O TESTE INDICA QUE SEU INSITO É <span class="resultado">{{resultado}}</span></mat-card-subtitle>
+  <mat-card-subtitle>O TESTE INDICA QUE SEU INSITO É <span class="perfil">{{resultado}}</span></mat-card-subtitle>
   <mat-card-content>
     {{descricao}}
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="resultado">
-  <mat-card-subtitle>GRÁFICO</mat-card-subtitle>
-  <mat-card-content>
-    <div echarts [options]="options" class="chart"></div>
-  </mat-card-content>
-</mat-card>
-<mat-card *ngIf="resultado">
-  <mat-card-content>
-    <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/x_Rwp5yXhL0?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </mat-card-content>
-</mat-card>
+<div class="resultado">
+  <mat-card *ngIf="resultado" class="bloco">
+    <mat-card-subtitle>GRÁFICO</mat-card-subtitle>
+    <mat-card-content>
+      <div echarts [options]="options" class="chart"></div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="resultado" class="bloco">
+    <mat-card-subtitle>VÍDEO</mat-card-subtitle>
+    <mat-card-content>
+      <iframe
+        [src]="videoURL"
+        width="100%"
+        height="315"
+        class="video"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </mat-card-content>
+  </mat-card>
+</div>
 <button *ngIf="resultado" mat-raised-button color="primary" (click)="reset()">Refazer</button>

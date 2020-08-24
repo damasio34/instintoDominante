@@ -1,8 +1,9 @@
-import { Classificacao } from './../../models/classificacao';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 
-import { MatSnackBar } from '@angular/material';
+import { Classificacao } from './../../models/classificacao';
 import { InstintoService } from './../../services/instinto.service';
 import { Pergunta } from '../../models/pergunta';
 import { Perfil } from '../../models/perfil';
@@ -14,17 +15,20 @@ import { Perfil } from '../../models/perfil';
 })
 export class QuestionarioComponent implements OnInit {
 
-  questionario: FormGroup;
-  perguntas: Array<Pergunta>;
-  resultado: Perfil;
   descricao: string;
   options: any;
+  perguntas: Array<Pergunta>;
+  questionario: FormGroup;
+  resultado: Perfil;
+  videoURL: SafeResourceUrl;
 
   constructor(
     private formBuilder: FormBuilder,
     private instintoService: InstintoService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer
   ) {
+    this.videoURL = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube-nocookie.com/embed/x_Rwp5yXhL0?controls=0');
     this.questionario = this.formBuilder.group({
       perguntas: this.formBuilder.array([]),
     });
@@ -71,51 +75,6 @@ export class QuestionarioComponent implements OnInit {
     });
   }
 
-  rangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    if (!control.value.resposta.pontuacao) {
-      return { range: true };
-    }
-    return null;
-  }
-
-  isDisabled(i: number): boolean {
-    if (i === 0) { return false; }
-    const perguntas = this.questionario.controls.perguntas;
-    const naoTemPontuacao = perguntas.value[i].resposta.pontuacao === undefined;
-    const anteriorEhIndefinido = perguntas.value[i - 1].resposta.pontuacao  === undefined;
-    const naoChegouAoFinal = i + 1 < perguntas.value.length;
-    const posteriorEhDefinido = naoChegouAoFinal ? perguntas.value[i + 1].resposta.pontuacao !== undefined : true;
-
-    return (naoTemPontuacao && anteriorEhIndefinido) || (naoTemPontuacao && posteriorEhDefinido);
-  }
-
-  reset() {
-    this.questionario.reset();
-    const perguntas = this.questionario.controls.perguntas as FormArray;
-    this.perguntas.forEach((pergunta, index) => {
-      const control = this.formBuilder.control(pergunta, Validators.required);
-      perguntas.controls[index] = control;
-    });
-    this.resultado = undefined;
-  }
-
-  submit() {
-    if (this.questionario.invalid) {
-      this.snackBar.open('Questionário incompleto.');
-      return;
-    }
-    this.questionario.value.perguntas.forEach((element: Pergunta) => {
-      element.resposta.pontuacao = Math.floor(Math.random() * 11);
-    });
-    const classificacao = this.instintoService.obterClassificacao();
-    const classificacaoFinal = this.instintoService.processarClassificacao(classificacao, this.questionario.value.perguntas);
-    const resultado = this.instintoService.definirPerfil(classificacaoFinal);
-    this.resultado = Perfil[resultado];
-    this.descricao = this.instintoService.oberDescricaoDoPerfil(resultado);
-    this.montarGrafico(classificacaoFinal);
-  }
-
-
   private montarGrafico(classificacaoFinal: Classificacao[]) {
     this.options = {
       tooltip: {
@@ -152,4 +111,49 @@ export class QuestionarioComponent implements OnInit {
       ]
     };
   }
+
+  isDisabled(i: number): boolean {
+    if (i === 0) { return false; }
+    const perguntas = this.questionario.controls.perguntas;
+    const naoTemPontuacao = perguntas.value[i].resposta.pontuacao === undefined;
+    const anteriorEhIndefinido = perguntas.value[i - 1].resposta.pontuacao  === undefined;
+    const naoChegouAoFinal = i + 1 < perguntas.value.length;
+    const posteriorEhDefinido = naoChegouAoFinal ? perguntas.value[i + 1].resposta.pontuacao !== undefined : true;
+
+    return (naoTemPontuacao && anteriorEhIndefinido) || (naoTemPontuacao && posteriorEhDefinido);
+  }
+
+  rangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (!control.value.resposta.pontuacao) {
+      return { range: true };
+    }
+    return null;
+  }
+
+  reset() {
+    this.questionario.reset();
+    const perguntas = this.questionario.controls.perguntas as FormArray;
+    this.perguntas.forEach((pergunta, index) => {
+      const control = this.formBuilder.control(pergunta, Validators.required);
+      perguntas.controls[index] = control;
+    });
+    this.resultado = undefined;
+  }
+
+  submit() {
+    if (this.questionario.invalid) {
+      this.snackBar.open('Questionário incompleto.');
+      return;
+    }
+    this.questionario.value.perguntas.forEach((element: Pergunta) => {
+      element.resposta.pontuacao = Math.floor(Math.random() * 11);
+    });
+    const classificacao = this.instintoService.obterClassificacao();
+    const classificacaoFinal = this.instintoService.processarClassificacao(classificacao, this.questionario.value.perguntas);
+    const resultado = this.instintoService.definirPerfil(classificacaoFinal);
+    this.resultado = Perfil[resultado];
+    this.descricao = this.instintoService.oberDescricaoDoPerfil(resultado);
+    this.montarGrafico(classificacaoFinal);
+  }
+
 }
